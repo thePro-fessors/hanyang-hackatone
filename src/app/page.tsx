@@ -87,9 +87,9 @@ const TRANSLATIONS: Record<string, any> = {
   JA: {
     welcome1: "ようこそ！",
     welcome2: "韓国生活について何でも聞いてください。",
-    scanTitle: "書類・請求書の 스캔",
+    scanTitle: "書類・請求書のスキャン",
     scanDesc: "複雑な韓国語の書類を簡単な日本語に翻訳・要約",
-    askTitle: "Bridged に質問する",
+    askTitle: "何でも聞いてください",
     askDesc: '「転入届とは何ですか？」「子供の入学手続きは？」',
     categories: "クイックカテゴリー",
     catMoving: "引っ越し / 登録",
