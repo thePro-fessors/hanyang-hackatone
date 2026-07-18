@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌐 BridgeAI - 외국인 전용 한국 행정·고지서 AI 가이드
+> **Next.js + TypeScript + Gemini 3.5-Flash (Structured JSON Outputs)**  
+> 복잡하고 까다로운 한국어 고지서와 공문서, 각종 행정 절차를 외국인의 눈높이에 맞게 실시간 번역, OCR 분석, 3단계 로드맵 체크리스트로 가공해주는 모바일 전용 AI 생활 지원 웹앱 서비스입니다.
 
-## Getting Started
+---
 
-First, run the development server:
+## 🚀 주요 기능 (Key Features)
 
+### 1. 📋 고지서 OCR & 다국어 상세 요약 스캔
+*   **실시간 판독**: 건강보험 고지서, 세금 통지서, 주차 과태료 등의 공문서 사진을 업로드하거나 촬영하면, AI가 문서 종류와 한글 원본명을 식별합니다.
+*   **구조화된 요약**: **납부 금액(KRW)**, **납부 마감 기한**, **D-Day 남은 일자**를 명확하게 한눈에 띄워줍니다.
+*   **액션 아이템 가이드**: "1. 스마트폰 은행 앱 실행", "2. 지로/공과금 메뉴 선택", "3. 고유 전자납부번호 입력" 등 외국인이 실제로 지불까지 끝마칠 수 있는 명확한 단계별 대처법을 가이드합니다.
+*   **원본 대조 기능**: 업로드한 원래 고지서 사진과 AI 요약 리포트를 화면 전환 없이 모달 오버레이로 상호 대조해볼 수 있습니다.
+
+### 2. 💡 상황 기반 행정 가이드 AI (Q&A 로드맵)
+*   **체크리스트 타임라인**: "전입신고는 어떻게 하나요?", "자녀를 초등학교에 입학시키고 싶어요" 등 다양한 질문이나 거주 환경 관련 문제를 입력하면, AI가 구비 서류 및 절차를 분석하여 **3단계 체크리스트 형태의 로드맵 타임라인**을 동적으로 렌더링합니다.
+*   **추가 꿀팁(Additional Tips)**: 준비물 누락 방지를 위해 준비해야 할 임대차계약서, 가족관계증명서 번역본 등 필수 실무 서류 명세와 조언을 추가 제공합니다.
+
+### 3. 🌐 전역 5개국어 실시간 동기화 (LanguageContext)
+*   **5개 언어 완벽 지원**: **영어(EN), 한국어(KO), 중국어(ZH), 베트남어(VI), 일본어(JA)**를 기본 제공합니다.
+*   **React Context API 도입**: 서브페이지(`Scan`, `AI Guide`)를 넘나들거나 라우팅을 거쳐도 선택한 언어가 절대로 풀리거나 리셋되지 않고 앱 전역에 일관적으로 유지됩니다.
+*   **시크릿 모드 크래시 우회**: 모바일 크롬 시크릿 탭 및 삼성인터넷 비밀 모드의 보안 정책 상 `localStorage` 읽기/쓰기가 차단되어 JS 렌더가 마비되던 크래시를 `try-catch` 안전 샌드박스로 원천 차단하고 메모리 단에서 언어 상태를 동기화합니다.
+
+### 4. 🗄️ 로컬 히스토리 데이터베이스
+*   **영구 보존**: 과거에 스캔 분석을 수행했던 이력과 AI 가이드 Q&A 대화 리스트가 브라우저에 자동 보존됩니다.
+*   **원터치 복원**: 목록의 히스토리 카드를 한 번 터치하면, 과거에 생성되었던 AI 요약문과 3단계 로드맵의 상태로 화면에 즉시 복원됩니다.
+
+### 5. 🛡️ 해커톤 시연용 이중 폴백(Fallback) 안전망
+*   네트워크 순단이나 API Key 미지정, 혹은 구글 클라우드 할당량 초과(429) 등의 외부 장애가 발생하더라도, 데모가 멈추지 않고 Figma 시안 사양의 완벽한 목크(Mock) 데이터를 안전하게 제공하여 안정적인 피칭 및 심사를 보장합니다.
+
+---
+
+## 🛠️ 기술 스택 (Tech Stack)
+
+*   **Framework**: Next.js 16 (App Router, Webpack Compiler)
+*   **Language**: TypeScript, React 19
+*   **Styling**: Tailwind CSS (바닐라 CSS 및 Poppins 폰트 패키지 통합)
+*   **AI SDK**: `@google/generative-ai`
+*   **AI Engine**: **`gemini-3.5-flash`**
+    *   `generationConfig.responseSchema`를 활용하여 문법 파괴 현상(따옴표 중첩, 쉼표 누락 등)이 원천 봉쇄된 **구조화된 JSON 출력(Structured JSON Outputs)** 명세 강제 적용.
+    *   `cleanAndParseJSON` 파서 유틸리티를 적용하여 중괄호 `{}` 사이의 JSON 본체만 동적으로 슬라이싱하여 파싱 안정성 확보.
+
+---
+
+## 💻 로컬 구동 및 설치 방법
+
+### 1. 의존성 패키지 설치
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Gemini API 키 환경변수 주입
+```bash
+# MacOS/Linux
+export GEMINI_API_KEY="본인의_API_키"
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Windows (Command Prompt)
+set GEMINI_API_KEY="본인의_API_키"
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. 배포용 빌드 컴파일
+```bash
+npm run build
+```
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 4. 프로덕션 서버 실행
+> 데모 기기(모바일 실기기)가 동일한 공유기(Wi-Fi) 망에 접속되어 있을 때, 로컬 IP 주소를 통해 웹뷰로 접속하여 터치 및 데모를 완벽하게 시행할 수 있도록 `-H 0.0.0.0` 호스트 바인딩이 기설정되어 있습니다.
+```bash
+npm run start
+```
+*   서버 실행 후 출력되는 로컬 네트워크 IP(예: `http://192.168.0.x:3000`)로 스마트폰 브라우저에 접속해 주십시오.
